@@ -1,0 +1,13 @@
+<h1>[{{user.id}}] {{user.name}} </h1>
+<ul class="list-group mb-10">
+    <li class="list-group-item"><strong>Email: </strong>{{user.email}}</li>
+    <li class="list-group-item"><strong>Phone: </strong>{{user.phone}}</li>
+</ul>
+<a class="btn btn-primary float-start mt-2" href="/">Back</a>
+<form method="POST" action="/user/delete/{{user.id}}?_method=DELETE">
+    <input class="btn btn-danger float-end mt-2 ml-2" type="submit" value="Delete">
+</form>
+
+<form method="GET" action="/user/update/{{user.id}}">
+    <input class="btn btn-primary float-end mt-2" type="submit" value="Update">
+</form>
