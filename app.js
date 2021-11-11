@@ -52,40 +52,14 @@ app.get("/user/add", (req, res, next) => {
     res.render("adduser");
 });
 
-//POST on add users
-// app.post("/user/add", (req, res, next) => {
-//     let username = req.body.userId;
-//     let name = req.body.name;
-//     let email = req.body.email;
-//     let phone = req.body.phone;
-//     if (client.EXISTS(username) == 1) {//Cannot have same username
-//         console.log(username, " already exists");
-//         res.render('adduser', {
-//             error: username + " Username already exists"
-//         })
-//     }
-//     else {
-//         console.log("Inside POST add users")
-//         client.HMSET(username, {
-//             "name": name,
-//             "email": email,
-//             "phone": phone
-//         }, function (err, reply) {
-//             if (err)
-//                 console.log(err);
-//             console.log(reply);
-//             res.redirect("/");
-//         })
-//     }
-// });
-
+//Add new user
 app.post("/user/add", (req, res, next) => {
     let username = req.body.userId;
     let name = req.body.name;
     let email = req.body.email;
     let phone = req.body.phone;
     client.EXISTS(username, (err, reply) => {
-        console.log("Inside POST add users")
+        // console.log("Inside POST add users")
         if (err)
             console.log(err);
         if (reply == 1) {//If already exists
@@ -111,17 +85,17 @@ app.post("/user/add", (req, res, next) => {
 
 //DELETE method
 app.delete("/user/delete/:id", (req, res, next) => {
-    console.log("Deleted", req.params.id);
+    // console.log("Deleted", req.params.id);
     client.DEL(req.params.id);
     res.redirect("/");
 });
 
-//MAKE UPDATE & DELETE
+//GET user details
 app.get("/user/update/:id", (req, res, next) => {
-    console.log("GET Update method", req.params.id);
+    // console.log("GET Update method for id:", req.params.id);
     let id = req.params.id;
     client.HGETALL(id, function (err, obj) {
-        console.log("Obj", obj);
+        // console.log("display details for obj:", obj);
         if (!obj) {
             res.render('updateuser', {
                 error: "User doesn't exist"
@@ -136,12 +110,13 @@ app.get("/user/update/:id", (req, res, next) => {
     });
 })
 
+//UPDATE user details
 app.put("/user/update/:id", (req, res, next) => {
     let username = req.params.id;
     let name = req.body.name;
     let email = req.body.email;
     let phone = req.body.phone;
-    console.log("PUT Update method", req.params.id);
+    // console.log("PUT Update method", req.params.id);
     client.HMSET(username, {
         "name": name,
         "email": email,
